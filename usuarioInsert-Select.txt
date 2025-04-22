@@ -1,0 +1,46 @@
+Criar um usuario que só pode inserir dados no banco de dados;
+
+1 passo logar no cmd com o root
+
+mysql -u root -p senha
+
+
+2 passo 
+
+CREATE USER 'userInsert'@'%' identified by 'SPTech#2025'
+
+3 passo
+
+GRANT INSERT ON BANCO.TABELA TO 'userInsert'@'%';
+FLUSH PRIVILEGES;
+
+4 passo
+
+exit
+
+-- sselect
+mysql -u userInsert -p 'SPTech#2025'
+show databases;
+
+Criar um usuario que só pode dar select no dados no banco de dados;
+
+1 passo logar no cmd com o root
+
+mysql -u root -p senha
+
+
+2 passo 
+
+CREATE USER 'userSelect'@'%' identified by 'SPTech#2025'
+
+3 passo
+
+GRANT select ON BANCO.TABELA TO 'userSelect'@'%';
+FLUSH PRIVILEGES;
+
+4 passo
+
+exit
+
+mysql -u userSelect -p 'SPTech#2025'
+show databases;
