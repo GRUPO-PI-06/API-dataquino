@@ -18,15 +18,11 @@ const serial = async (
     // conexão com o banco de dados MySQL
     let poolBancoDados = mysql.createPool(
         {
-            // host: 'localhost',
-            // user: 'root',
-            // password: '255225',
-            // database: 'sensor',
-            // port: 3306
+
             host: 'localhost',
-            user: 'userInsert1', //usuario q só 
+            user: 'userInsert', //usuario q só 
             password: 'SPTech#2025',
-            database: 'testeVM',//bancoo de dados principal
+            database: 'orchid2',//bancoo de dados principal
             port: 3307
         }
     ).promise();
@@ -56,7 +52,18 @@ const serial = async (
         console.log(data);
         const valores = data.split(' ');
         const sensorAnalogico = parseFloat(valores[0]);
-
+        var status = '';
+        function obterStatusLuz() {
+            if (sensorAnalogico < 1500){
+                status = 'Iluminação Insuficiente';
+            } 
+            else if (sensorAnalogico > 3000){
+                status = 'Iluminação Excessiva';
+            } else{
+                status = 'Iluminação Adequada';
+            }
+        }
+        obterStatusLuz();
         // armazena os valores dos sensores nos arrays correspondentes
         valoresSensorAnalogico.push(sensorAnalogico);
 
@@ -65,8 +72,8 @@ const serial = async (
 
             // este insert irá inserir os dados na tabela "medida"
             await poolBancoDados.execute(
-                'INSERT INTO medida (sensor_analogico) VALUES (?)',
-                [sensorAnalogico]
+                `INSERT INTO registro_luminosidade (fk_sensor, intensidade_luz, status_luz) VALUES (?, ?, ?)`,
+                [1, sensorAnalogico, status]
             );
             console.log("valores inseridos no banco: ", sensorAnalogico);
 
